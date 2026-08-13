@@ -18,6 +18,9 @@ func main() {
 		case "http":
 			runHTTP(args[1:])
 			return
+		case "version", "--version", "-V":
+			fmt.Println(server.Version)
+			return
 		case "help", "--help", "-h":
 			printUsage()
 			return
@@ -44,5 +47,6 @@ Usage:
   tau-tool http         run the streamable HTTP MCP server
       --host <host>     host to bind (default localhost)
       --port <n>        port to listen on (default 8899)
+  tau-tool version      print the version
   tau-tool help         show this help`)
 }

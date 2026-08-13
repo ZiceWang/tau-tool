@@ -6,10 +6,11 @@ import (
 	"tau-tool/internal/tools"
 )
 
-const (
-	Name    = "tau-tool"
-	Version = "v0.1.0"
-)
+const Name = "tau-tool"
+
+// Version is the build version. Release builds override it via
+// -ldflags "-X tau-tool/internal/server.Version=<tag>".
+var Version = "v0.1.0"
 
 // New creates the MCP server with pi's core tools (read, write, edit, bash)
 // plus a settings tool. Tools operate on the process working directory.

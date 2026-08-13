@@ -92,6 +92,17 @@ Relative paths resolve against the working directory of the tau-tool process. MC
 
 For bash, set `shellEncoding`. On Unix, shells emit UTF-8 and nothing needs setting. On Windows it's less predictable: the console shares one code page that other programs can flip (WSL sets it to 65001), so what a shell actually emits is not stable. That's why the agent states the encoding instead of the tool injecting `chcp`.
 
+## Releasing
+
+Push a `v*` tag and a GitHub Actions workflow (`.github/workflows/release.yml`) builds for windows/linux/darwin × amd64/arm64 and uploads them to a GitHub Release:
+
+```bash
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+The binary embeds the tag as its version via `-ldflags "-X tau-tool/internal/server.Version=<tag>"`; check it with `tau-tool version`. The workflow can also be run manually (workflow_dispatch).
+
 ## Development
 
 ```bash
