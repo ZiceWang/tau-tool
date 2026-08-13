@@ -13,6 +13,10 @@ import (
 )
 
 func newTestServer(t *testing.T) *mcp.ClientSession {
+	// Isolate from the user's real settings so the generated description and
+	// tool behavior are deterministic.
+	t.Setenv(tools.EnvSettings, filepath.Join(t.TempDir(), "settings.json"))
+
 	serverTransport, clientTransport := mcp.NewInMemoryTransports()
 
 	srv := New()
@@ -41,16 +45,17 @@ func TestServerListTools(t *testing.T) {
 	if err != nil {
 		t.Fatalf("ListTools: %v", err)
 	}
-	if len(list.Tools) != 5 {
-		t.Fatalf("expected 5 tools, got %d", len(list.Tools))
+	if len(list.Tools) != 6 {
+		t.Fatalf("expected 6 tools, got %d", len(list.Tools))
 	}
 
 	want := map[string]string{
-		"read":     tools.ReadToolDescription,
-		"write":    tools.WriteToolDescription,
-		"edit":     tools.EditToolDescription,
-		"bash":     tools.BashToolDescription,
-		"settings": tools.SettingsToolDescription(nil),
+		"read":      tools.ReadToolDescription,
+		"write":     tools.WriteToolDescription,
+		"edit":      tools.EditToolDescription,
+		"bash":      tools.BashToolDescription,
+		"settings":  tools.SettingsToolDescription(nil),
+		"websearch": tools.WebSearchToolDescription,
 	}
 	got := map[string]string{}
 	for _, tool := range list.Tools {

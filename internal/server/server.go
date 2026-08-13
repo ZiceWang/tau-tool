@@ -47,5 +47,10 @@ func New() *mcp.Server {
 		Description: tools.SettingsToolDescription(settings),
 	}, tools.CreateSettingsTool(settings))
 
+	mcp.AddTool(server, &mcp.Tool{
+		Name:        "websearch",
+		Description: tools.WebSearchToolDescription,
+	}, tools.CreateWebSearchTool())
+
 	return server
 }
