@@ -2,7 +2,7 @@ BINARY := tau-tool$(if $(findstring Windows,$(OS)),.exe,)
 BIN_DIR := bin
 PKG := ./cmd/server
 
-.PHONY: all build run vet fmt test clean
+.PHONY: all build run run-http vet fmt test clean
 
 all: build
 
@@ -11,6 +11,9 @@ build:
 
 run: build
 	./$(BIN_DIR)/$(BINARY)
+
+run-http: build
+	./$(BIN_DIR)/$(BINARY) http --port 8899
 
 vet:
 	go vet ./...

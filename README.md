@@ -53,6 +53,16 @@ Register it as a stdio server:
 
 On Windows the binary is `tau-tool.exe`.
 
+### HTTP mode
+
+Serve over the streamable HTTP transport instead of stdio:
+
+```bash
+tau-tool http --port 8899
+```
+
+`--host` (default `localhost`) and `--port` (default 8899) are optional. Startup prints the URL, e.g. `tau-tool http: listening on http://localhost:8899/mcp`. Point your client's MCP URL at it. `make run-http` is a shortcut.
+
 ## Configuration
 
 The `settings` tool is how you (or the agent) change things:
@@ -68,6 +78,8 @@ settings unset shellPath
 Stored in `~/.tau-tool/settings.json`, or wherever `TAU_TOOL_SETTINGS` points.
 
 ### Environment variables
+
+Relative paths resolve against the working directory of the tau-tool process. MCP itself has no "cwd" concept, so there's nothing else to anchor to: the process's directory is the cwd. Switch it by starting the server from the directory you want, setting `TAU_TOOL_CWD`, or launching http mode with a chosen working directory.
 
 | Variable | Purpose | Default |
 |---|---|---|
@@ -85,6 +97,7 @@ For bash, set `shellEncoding`. On Unix, shells emit UTF-8 and nothing needs sett
 ```bash
 make build    # compile to bin/
 make run      # build and run (stdio)
+make run-http # build and run (http, port 8899)
 make test     # all tests
 make vet      # go vet
 make fmt      # go fmt
